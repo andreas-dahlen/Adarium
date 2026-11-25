@@ -1,0 +1,50 @@
+digraph Dependencies {
+    graph [newrank=true];
+
+    // Root-level folder
+    subgraph cluster_0 {
+        label = "branch";
+
+        "branch_anchor" [style=invis, shape=point, width=0, height=0];
+
+        "branch/branch2.ts" [label="branch2.ts"];
+        "branch/branch1.ts" [label="branch1.ts"];
+
+        // Nested folder
+        subgraph cluster_1 {
+            label = "newBranch";
+
+            "newBranch_anchor" [style=invis, shape=point, width=0, height=0];
+
+            "branch/newBranch/anotherone.ts" [label="anotherone.ts"];
+        }
+    }
+
+    // Root-level files
+    "example.ts";
+    "example2.ts";
+
+    // Generated files
+    "cluster.dot";
+    "tree.svg";
+    "tree.dot";
+    "cluster.svg";
+
+// Rank groups
+{ rank=same; "branch"; "example.ts"; "example2.ts"; }
+
+{ rank=same; "branch/branch1.ts"; "branch/branch2.ts"; }
+
+// Filesystem hierarchy (invisible)
+"branch/branch1.ts" -> "branch/newBranch/anotherone.ts" [style=invis];
+
+    "newBranch_anchor" -> "branch/newBranch/anotherone.ts" [style=invis];
+
+    // Dependency relationships
+    "example2.ts" -> "example.ts" [color=blue, style=dashed, constraint=false];
+    "example.ts" -> "example2.ts" [color=blue, style=dashed, constraint=false];
+    "branch/newBranch/anotherone.ts" -> "example.ts" [color=blue, style=dashed, constraint=false];
+    "branch/branch1.ts" -> "example2.ts" [color=blue, style=dashed, constraint=false];
+    "branch/branch1.ts" -> "example.ts" [color=blue, style=dashed, constraint=false];
+    "branch/branch2.ts" -> "branch/branch1.ts" [color=blue, style=dashed, constraint=false];
+}

@@ -1,0 +1,55 @@
+{
+  "publisher": "ad",
+  "name": "depend",
+  "type": "module",
+  "displayName": "Depend",
+  "description": "Analyses import dependencies through an LSP.",
+  "version": "0.0.1",
+  "private": true,
+  "engines": {
+    "vscode": "^1.134.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "scripts": {
+    "type": "tsc --noEmit",
+    "build": "tsc --noEmit -p tsconfig.src.json && esbuild src/extension.ts --bundle --platform=node --format=esm --external:vscode --external:vscode-languageclient --main-fields=module,main --outfile=dist/extension.js",
+    "package": "npm run build && vsce package --allow-missing-repository"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^11.0.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "@types/vscode": "^1.134.0",
+    "@vitest/coverage-v8": "^5.0.0",
+    "@vscode/vsce": "^4.0.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "keytar@7.9.0": true,
+    "@types/vscode@1.125.0": true,
+    "@vscode/vsce-sign@2.1.0": true
+  },
+  "contributes": {
+    "configuration": {
+      "title": "Depend",
+      "properties": {
+        "depend.projectRoot": {
+          "type": "string",
+          "default": ".",
+          "description": "Path to the project root, relative to the workspace folder."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+
+:root {
+  --f-bg-test: blue;
+}
+
+.bottom {
+  --f-label-inset: var(--final-label-offset-y) 0 0 0;
+}
+
+.top {
+  --f-label-inset: 0 0 var(--final-label-offset-y) 0;
+}
+
+.left {
+  --f-label-inset: 0 var(--final-label-offset-x) 0 0;
+}
+
+.right {
+  --f-label-inset: 0 0 0 var(--final-label-offset-x);
+}
+
+.label {
+  position: var(--final-label-position);
+  text-align: var(--final-label-align);
+  color: var(--final-label-col);
+  inset: var(--final-label-inset);
+}
+

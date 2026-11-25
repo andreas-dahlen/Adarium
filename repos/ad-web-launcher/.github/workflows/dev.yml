@@ -1,0 +1,100 @@
+name: Dev Build (Debug APK)
+
+on:
+  push:
+    branches: [ dev ]
+    paths:
+      - 'web-react/dist/index.html'
+  workflow_dispatch:
+
+jobs:
+  build-dev-apk:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repo
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0   # required for versioning
+
+      # Setup Node
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      # Install dependencies + build cascade-compiler
+      - name: Install dependencies
+        working-directory: web-react/tools/cascade-compiler
+        run: npm ci
+
+      - name: Build token compiler
+        working-directory: web-react/tools/cascade-compiler
+        run: npm run generate
+
+      # Install dependencies + build web-react
+      - name: Install dependencies
+        working-directory: web-react
+        run: npm ci
+
+      - name: Build web-react
+        working-directory: web-react
+        run: npm run build
+
+      # Copy dist/index.html → android assets
+      - name: Copy web build into Android assets
+        run: |
+          mkdir -p android/app/src/main/assets
+          cp web-react/dist/index.html android/app/src/main/assets/index.html
+
+      # Setup Java + Android SDK
+      - name: Setup JDK
+        uses: actions/setup-java@v6
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # Build Debug APK
+      - name: Build Debug APK
+        working-directory: android
+        run: ./gradlew assembleDebug
+
+      # Determine next version
+      - name: Determine next version
+        id: versioning
+        run: |
+          # Find the highest valid vX.Y.Z tag.
+          TAG=$(git tag --list 'v*.*.*' --sort=-v:refname | head -n 1)
+
+          # Fall back if no version tags exist.
+          if [[ -z "$TAG" ]]; then
+            TAG="v1.0.0"
+          fi
+
+          echo "Latest version tag: $TAG"
+
+          # Remove the leading "v" and split the version.
+          VERSION=${TAG#v}
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+
+          # Increment the patch version.
+          PATCH=$((PATCH + 1))
+          NEW_VERSION="v$MAJOR.$MINOR.$PATCH"
+
+          echo "Next version: $NEW_VERSION"
+          echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+
+
+      # Create GitHub Release
+      - name: Create Release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ steps.versioning.outputs.new_version }}
+          name: Dev Build ${{ steps.versioning.outputs.new_version }}
+          body: |
+            Automated dev build  
+            Commit: ${{ github.sha }}
+          files: android/app/build/outputs/apk/debug/app-debug.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

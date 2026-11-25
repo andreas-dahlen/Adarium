@@ -1,0 +1,28 @@
+digraph Dependencies {
+    subgraph cluster_0 {
+        label = "branch";
+        "branch/branch1.ts" [label="branch1.ts"];
+        "branch/branch2.ts" [label="branch2.ts"];
+        subgraph cluster_1 {
+            label = "newBranch";
+            "branch/newBranch/anotherone.ts" [label="anotherone.ts"];
+        }
+    }
+    "cluster.svg";
+    "cluster.dot";
+    "test.dot";
+    "example.ts";
+    "example2.ts";
+    "tree.dot";
+    "depend.json";
+    "tree.svg";
+    "unset.ts";
+    "branch/newBranch/anotherone.ts" -> "example.ts"[color=blue, style=dashed, rank=same];
+    "branch/newBranch/anotherone.ts" -> "example2.ts"[color=blue, style=dashed, rank=same];
+    "example.ts" -> "example2.ts"[color=blue, style=dashed, rank=same];
+    "branch/branch2.ts" -> "branch/branch1.ts"[color=blue, style=dashed, rank=same];
+    "example2.ts" -> "example.ts"[color=blue, style=dashed, rank=same];
+    "branch/branch1.ts" -> "example2.ts"[color=blue, style=dashed, rank=same];
+    "branch/branch1.ts" -> "example.ts"[color=blue, style=dashed, rank=same];
+    "unset.ts" -> "example2.ts"[color=blue, style=dashed, rank=same];
+}

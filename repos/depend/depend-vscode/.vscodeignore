@@ -1,0 +1,7 @@
+src/
+.vscode/
+tsconfig.json
+*.ts
+*.map
+coverage/
+.vitest/

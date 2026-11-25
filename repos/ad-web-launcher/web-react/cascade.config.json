@@ -1,0 +1,17 @@
+{
+  "tokenFolder": "src/tokens",
+  "outputs": {
+    "extension": true,
+    "lsp": true,
+    "meta": false,
+    "pathPatches": true,
+    "presets": true,
+    "tokens": true,
+    "schema": true,
+    "package": true
+  },
+  "logging": {
+    "trace": false,
+    "emissions": "summary" //summary | verbose | off
+  }
+}

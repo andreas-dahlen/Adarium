@@ -1,0 +1,9 @@
+.panel {
+  opacity: var(--panel-opacity, 1);
+  transition: opacity 0.2s ease;
+}
+
+[data-active-gesture="drag"] .panel {
+  --panel-opacity: 0.3;
+  background-color: var(--final-carousel-background);
+}

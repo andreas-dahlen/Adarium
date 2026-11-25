@@ -1,0 +1,41 @@
+import type { Constraints1D } from '@shared/types/core.types.ts'
+import { useMemo } from "react"
+
+interface UseSliderMotionProps {
+  position: number
+  constraints: Constraints1D
+  axisSize: number
+  axisitemSize: number
+  dragging: boolean
+  isHorizontal: boolean
+}
+
+export function useSliderMotion({
+  position,
+  constraints,
+  axisSize,
+  axisitemSize,
+  dragging,
+  isHorizontal
+}: UseSliderMotionProps) {
+  const thumbStyle = useMemo(() => {
+    const { min, max } = constraints
+    const value = position
+
+    const range = max - min || 1
+    const ratio = (value - min) / range
+
+    // usable space for thumb
+    const usable = Math.max(axisSize - axisitemSize, 0)
+    const pos = ratio * usable
+
+    return {
+      transform: isHorizontal
+        ? `translate3d(${pos}px,0,0)`
+        : `translate3d(0,${pos}px,0)`,
+      transition: dragging ? "none" : "transform 150ms ease-out"
+    }
+  }, [position, constraints, axisSize, axisitemSize, dragging, isHorizontal])
+
+  return { thumbStyle }
+}

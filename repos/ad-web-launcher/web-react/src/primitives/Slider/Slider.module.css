@@ -1,0 +1,90 @@
+/* 
+file://wsl.localhost/Ubuntu/home/david/repos/ad-web-launcher/web-react/src/styleTokens/tokens/slider/slider.jsonc
+file://wsl.localhost/Ubuntu/home/david/repos/ad-web-launcher/web-react/src/styleTokens/tokens/slider/thumb.jsonc
+file://wsl.localhost/Ubuntu/home/david/repos/ad-web-launcher/web-react/src/styleTokens/tokens/slider/track.jsonc
+*/
+.slider {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: auto;
+
+  background: var(--final-slider-bg);
+  border-radius: var(--final-slider-radius);
+  opacity: var(--final-slider-opacity);
+
+  /* width: 100%; */
+  /* height: 100%; */
+  min-height: var(--final-thumb-cross-size);
+  min-width: var(--final-thumb-cross-size);
+
+  &[data-axis="horizontal"] {
+    width: var(--final-slider-main-size);
+    height: var(--final-slider-cross-size);
+    /* --final-slider-width: 90%;
+    --final-slider-height: 40px; */
+  }
+
+  &[data-axis="vertical"] {
+    width: var(--final-slider-cross-size);
+    height: var(--final-slider-main-size);
+    /* --final-slider-width: 45px;
+    --final-slider-height: 90%; */
+  }
+}
+
+
+.track {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: var(--final-track-bg);
+  opacity: var(--final-track-opacity);
+
+  border-radius: var(--final-track-radius);
+}
+
+[data-axis="horizontal"] .track {
+  width: var(--final-track-main-size);
+  height: var(--final-track-cross-size);
+}
+
+[data-axis="vertical"] .track {
+  width: var(--final-track-cross-size);
+  height: var(--final-track-main-size);
+}
+
+.thumb {
+  background: var(--final-thumb-bg);
+  border-radius: var(--final-thumb-radius);
+  border: var(--final-thumb-border);
+  opacity: var(--final-thumb-opacity);
+  will-change: transform;
+  position: absolute;
+
+}
+
+[data-axis="horizontal"] .thumb {
+  width: var(--final-thumb-main-size);
+  height: var(--final-thumb-cross-size);
+}
+
+[data-axis="vertical"] .thumb {
+  width: var(--final-thumb-cross-size);
+  height: var(--final-thumb-main-size);
+}
+
+[data-state="swiping"] .thumb {
+  --s-thumb-bg: var(--final-thumb-state-swiping-bg);
+}
+
+[data-state="pressed"] .thumb {
+  --s-thumb-bg: var(--final-thumb-state-pressing-bg);
+}
+
+[data-state="committed"] .thumb {
+  --s-thumb-bg: var(--final-thumb-state-committed-bg);
+}

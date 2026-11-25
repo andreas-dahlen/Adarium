@@ -1,0 +1,28 @@
+digraph Tree {
+    "branch" [label="branch", shape=box];
+    "branch/newBranch" [label="newBranch", shape=box];
+    "branch" -> "branch/newBranch";
+    "cluster.svg" [label="cluster.svg"];
+    "cluster.dot" [label="cluster.dot"];
+    "branch/branch1.ts" [label="branch1.ts"];
+    "branch" -> "branch/branch1.ts";
+    "branch/newBranch/anotherone.ts" [label="anotherone.ts"];
+    "branch/newBranch" -> "branch/newBranch/anotherone.ts";
+    "test.dot" [label="test.dot"];
+    "example.ts" [label="example.ts"];
+    "example2.ts" [label="example2.ts"];
+    "tree.dot" [label="tree.dot"];
+    "branch/branch2.ts" [label="branch2.ts"];
+    "branch" -> "branch/branch2.ts";
+    "depend.json" [label="depend.json"];
+    "tree.svg" [label="tree.svg"];
+    "unset.ts" [label="unset.ts"];
+    "branch/newBranch/anotherone.ts" -> "example.ts" [color=blue, style=dashed, constraint=false];
+    "branch/newBranch/anotherone.ts" -> "example2.ts" [color=blue, style=dashed, constraint=false];
+    "example.ts" -> "example2.ts" [color=blue, style=dashed, constraint=false];
+    "branch/branch2.ts" -> "branch/branch1.ts" [color=blue, style=dashed, constraint=false];
+    "example2.ts" -> "example.ts" [color=blue, style=dashed, constraint=false];
+    "branch/branch1.ts" -> "example2.ts" [color=blue, style=dashed, constraint=false];
+    "branch/branch1.ts" -> "example.ts" [color=blue, style=dashed, constraint=false];
+    "unset.ts" -> "example2.ts" [color=blue, style=dashed, constraint=false];
+}

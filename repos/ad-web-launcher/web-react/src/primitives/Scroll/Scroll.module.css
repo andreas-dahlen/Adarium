@@ -1,0 +1,34 @@
+/* 
+file://wsl.localhost/Ubuntu/home/david/repos/ad-web-launcher/web-react/src/styleTokens/tokens/scroll/knob.jsonc
+file://wsl.localhost/Ubuntu/home/david/repos/ad-web-launcher/web-react/src/styleTokens/tokens/scroll/scroll.jsonc
+*/
+
+.container {
+  position: absolute;
+  inset: 0;
+  /* min-height: var(--final-scroll-height); */
+}
+
+.scroll {
+  position: relative;
+  min-height: var(--final-scroll-height);
+  min-width: var(--final-scroll-width);
+  opacity: var(--final-scroll-opacity);
+  background: linear-gradient(to bottom, rgb(0 0 0), rgb(255 255 255));
+
+}
+
+
+/* .test-frame {
+  height: 2000px;
+  background: linear-gradient(to bottom, hotPink, black, royalBlue, black, hotPink, black, royalBlue)
+} */
+
+.knob {
+  position: absolute;
+  background: var(--final-knob-bg);
+  width: var(--final-knob-width, 100%);
+  height: var(--final-knob-height);
+  top: calc(-1*var(--final-knob-height));
+  pointer-events: auto;
+}

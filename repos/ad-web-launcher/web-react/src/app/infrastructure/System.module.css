@@ -1,0 +1,36 @@
+.shell {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--_col-neutral-dark-1);
+  overflow: hidden;
+}
+
+.frame {
+  border-radius: 28px;
+  box-shadow:
+    0 0 0 10 var(--_col-neutral-dark-2);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.loading {
+  position: absolute;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: black;
+  color: white;
+  max-width: 600px;
+  margin: 0 auto;
+  transition: opacity 300ms ease-out;
+}
+
+.fade {
+  opacity: 0;
+}

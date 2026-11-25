@@ -1,0 +1,42 @@
+{
+  "extends": "./tsconfig.paths.json",
+  "baseUrl": ".",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "composite": true,
+    "target": "esnext",
+    "lib": [
+      "ESNext"
+    ],
+    "module": "ESNext",
+    "types": [
+      "node"
+    ],
+    "skipLibCheck": true,
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "rewriteRelativeImportExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": [
+    "vite.config.ts",
+    "vite.base.config.ts",
+    "**/vitest.config.ts",
+    "vitest.app.config.ts",
+    "vitest.all.config.ts",
+    "vitest.coverage-exclude.ts",
+    "eslint.config.ts",
+    "oxlint.config.ts",
+    "tools/lint/config/**/*.ts",
+    "tools/lint/eslint-plugins/**/*.ts"
+  ]
+}

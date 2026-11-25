@@ -1,0 +1,36 @@
+
+import { toAxis, toOverflowSide, toType } from '../assertions/assertions.ts'
+import type { DomMeta } from '../types/descriptor/base.types.ts'
+
+/* =========================
+Context Builder
+========================= */
+export function extractDomMeta(el: HTMLElement): DomMeta | null {
+  const ds = el.dataset
+  const id = ds.id ?? ''
+
+  const axis = toAxis(ds.axis)
+  const type = toType(ds.type)
+
+  if (!type) return null
+  if (type !== 'button' && !axis) return null
+
+  const overflowSide = toOverflowSide(ds.overflowSide)
+
+  const isPressable = Boolean(id && type)
+  const isSwipeable = Boolean(id && axis && type)
+  const isInstantSwipe = ds.instantSwipe === 'true'
+
+  const snapX = parseNumber(ds.snapX)
+  const snapY = parseNumber(ds.snapY)
+  const lockPrevAt = parseNumber(ds.lockPrevAt)
+  const lockNextAt = parseNumber(ds.lockNextAt)
+  return { el, ds, id, axis, type, isSwipeable, isPressable, snapX, snapY, lockPrevAt, lockNextAt, overflowSide, isInstantSwipe }
+}
+
+function parseNumber(value: string | undefined): number | null {
+  if (value == null) return null
+
+  const num = Number(value)
+  return Number.isNaN(num) ? null : num
+}

@@ -4,3 +4,34 @@
 .nx/workspace-data
 .nx/self-healing
 .nx/migrate-runs
+
+# Dependencies
+
+node_modules/
+
+# Build output
+
+build/
+coverage/
+
+# Local environment
+
+.aws/
+.nx/
+.env
+.env.*
+!.env.example
+
+# Editor / OS
+
+.DS_Store
+Thumbs.db
+
+# Rust build output
+target/
+
+# Test output
+.vitest/
+
+# Archived project
+/repos/ad-web-launcher/archive/web/

@@ -1,0 +1,19 @@
+interface PixabayPhoto {
+  largeImageURL: string
+}
+
+interface PixabayResponse {
+  hits: PixabayPhoto[]
+}
+
+export async function fetchWallpapers(query = 'nature'): Promise<string[]> {
+  const ACCESS_KEY = import.meta.env.VITE_PIXABAY_KEY
+  const res = await fetch(
+    `https://pixabay.com/api/?key=${ACCESS_KEY}&q=${query}&image_type=photo&orientation=vertical&per_page=20&safeseach=true`
+  )
+
+  if (!res.ok) throw new Error(`Pixabay error: ${res.status}`)
+
+  const data = await res.json() as PixabayResponse
+  return data.hits.map((photo) => photo.largeImageURL)
+}

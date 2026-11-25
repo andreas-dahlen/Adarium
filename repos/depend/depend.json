@@ -1,0 +1,31 @@
+{
+  "folders": [
+    {
+      "namespace": "newBranch",
+      "patterns": [
+        "branch/newBranch/**"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "namespace": "branchFiles",
+      "patterns": [
+        "**/branch/*.ts"
+      ]
+    },
+    {
+      "namespace": "example",
+      "patterns": [
+        "**/example.ts"
+      ]
+    }
+  ],
+
+  "rules": [
+    {
+      "namespaces": [ "newBranch" ],
+      "allowImports": [ "example" ]
+    }
+  ]
+}

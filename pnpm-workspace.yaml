@@ -1,0 +1,10 @@
+packages:
+  - 'config/*'
+  - 'repos/*'
+  - 'repos/ad-web-launcher/web-react'
+  - 'repos/rust-wasm-js/frontend'
+  - 'repos/depend/depend-vscode'
+allowBuilds:
+  '@vscode/vsce-sign': false
+  esbuild: true
+  '@swc/core': true
