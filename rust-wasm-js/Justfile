@@ -1,0 +1,17 @@
+# ==================== WASM ====================
+
+wasm:
+    cd rust && wasm-pack build --target bundler
+
+# ================== FRONTEND ==================
+
+dev:
+    pnpm --dir frontend run dev
+
+preview:
+    pnpm --dir frontend run preview
+
+# ================== PROJECT ====================
+
+build: wasm
+    pnpm --dir frontend run build

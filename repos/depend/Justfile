@@ -1,4 +1,0 @@
-build-vscode:
-    bash scripts/package-vscode.sh
-    cd depend-vscode && npm run package
-    code --install-extension depend-vscode/depend-0.0.1.vsix --force

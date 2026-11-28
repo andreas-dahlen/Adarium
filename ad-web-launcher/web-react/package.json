@@ -1,0 +1,67 @@
+{
+  "name": "web-react",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "type": "tsc -b --noEmit",
+    "knip": "knip",
+    "coverage": "vitest run --coverage",
+    "dev": "vite",
+    "build": "tsc -b tsconfig.build.json && vite build",
+    "preview": "vite preview",
+    "lint": "oxlint && eslint && stylelint",
+    "eslint": "eslint .",
+    "oxlint": "oxlint",
+    "stylelint": "stylelint \"src/**/*.css\""
+  },
+  "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
+    "cascade": "workspace:*",
+    "clsx": "^2.1.1",
+    "dasx": "workspace:*",
+    "immer": "^11.2.10",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "vite-plugin-svgr": "^5.2.0",
+    "zustand": "^5.1.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^8.0.0",
+    "@testing-library/react": "^16.3.3",
+    "@types/node": "^26.6.11",
+    "@types/react": "^19.3.3",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react-swc": "^4.3.3",
+    "@vitest/coverage-v8": "^5.1.2",
+    "eslint": "^10.15.0",
+    "eslint-import-resolver-typescript": "^4.4.5",
+    "eslint-plugin-boundaries": "^7.4.5",
+    "eslint-plugin-import-x": "^4.18.1",
+    "eslint-plugin-oxlint": "^1.95.0",
+    "jsdom": "^31.0.1",
+    "knip": "^6.48.0",
+    "lint": "workspace:*",
+    "oxlint": "^1.95.0",
+    "oxlint-tsgolint": "^7.0.2009",
+    "stylelint": "^17.16.0",
+    "stylelint-config-css-modules": "^4.6.0",
+    "stylelint-config-standard": "^40.0.0",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.4.0",
+    "vite-plugin-singlefile": "^2.3.4",
+    "vitest": "^5.1.2"
+  },
+  "overrides": {
+    "handlebars": "4.7.10"
+  },
+  "allowScripts": {
+    "unrs-resolver@1.12.2": true,
+    "esbuild@0.28.2": true,
+    "vitest@5.0.0": true,
+    "@vitest/coverage-v8@5.0.0": true,
+    "@swc/core@1.16.18": true
+  }
+}

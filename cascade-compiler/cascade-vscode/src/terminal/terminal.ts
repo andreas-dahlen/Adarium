@@ -1,0 +1,69 @@
+import { spawn, type ChildProcess } from 'node:child_process'
+import * as vscode from 'vscode'
+
+export class CompilerTerminal implements vscode.Pseudoterminal {
+
+  private readonly writeEmitter = new vscode.EventEmitter<string>()
+  private compiler: ChildProcess | undefined
+
+  readonly onDidWrite = this.writeEmitter.event
+
+  constructor(
+    private readonly cliFile: string,
+    private readonly projectRoot: string
+  ) { }
+
+  private write(data: string): void {
+    this.writeEmitter.fire(
+      data.replace(/\r?\n/g, '\r\n'), //needed for terminal formatting
+    )
+  }
+
+  open(): void {
+    this.write('Starting Cascade Compiler...\r\n')
+
+    const args = [
+      this.cliFile,
+      'watch',
+      this.projectRoot,
+    ]
+
+    // if (this.config !== undefined) {
+    //   args.push(this.config)
+    // }
+
+    this.compiler = spawn(process.execPath, args, {
+      cwd: this.projectRoot,
+    })
+
+    this.compiler.stdout?.on('data', data => {
+      this.write(data.toString())
+    })
+
+    this.compiler.stderr?.on('data', data => {
+      this.write(data.toString())
+    })
+
+    this.compiler.on('error', error => {
+      this.write(`\r\nFailed to start compiler: ${error.message}\r\n`)
+      this.compiler = undefined
+    })
+
+    this.compiler.on('exit', (code, signal) => {
+      this.write(
+        `\r\nCompiler exited with code ${code ?? `signal ${signal}`}\r\n`,
+      )
+      this.compiler = undefined
+    })
+  }
+
+  close(): void {
+    this.compiler?.kill()
+    this.compiler = undefined
+  }
+
+  handleInput(_data: string): void {
+    // Interactive commands will go here.
+  }
+
+}

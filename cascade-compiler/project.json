@@ -1,0 +1,11 @@
+{
+  "name": "cascade",
+  "targets": {
+    "install-extension": {
+      "command": "just install-extension",
+      "options": {
+        "cwd": "cascade-compiler"
+      }
+    }
+  }
+}

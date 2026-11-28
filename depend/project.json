@@ -1,0 +1,17 @@
+{
+  "name": "depend",
+  "targets": {
+    "build": {
+      "command": "just build",
+      "options": {
+        "cwd": "depend"
+      }
+    },
+    "install-extension": {
+      "command": "just install-extension",
+      "options": {
+        "cwd": "depend"
+      }
+    }
+  }
+}

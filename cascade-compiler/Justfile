@@ -1,0 +1,12 @@
+build:
+    pnpm --filter cascade build
+    pnpm --filter cascade-vscode build
+
+deploy-vscode:
+    rm -rf staging/cascade-vscode
+    pnpm --filter cascade-vscode --prod deploy ./staging/cascade-vscode
+
+install-extension: build deploy-vscode
+    cd staging/cascade-vscode && ../../cascade-vscode/node_modules/.bin/vsce package --allow-missing-repository --no-dependencies
+    code --install-extension staging/cascade-vscode/cascade-vscode-0.0.1.vsix --force
+    rm -rf staging/cascade-vscode

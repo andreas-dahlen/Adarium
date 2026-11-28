@@ -1,10 +1,20 @@
 packages:
-  - 'config/*'
-  - 'repos/*'
-  - 'repos/ad-web-launcher/web-react'
-  - 'repos/rust-wasm-js/frontend'
-  - 'repos/depend/depend-vscode'
+  - 'ad-web-launcher/web-react'
+  - 'rust-wasm-js/frontend'
+  - 'depend/depend-vscode'
+  - 'cascade-compiler/cascade-vscode'
+  - '*'
 allowBuilds:
   '@vscode/vsce-sign': false
   esbuild: true
   '@swc/core': true
+
+permissions:
+  '@solidjs/web':
+    skills: true
+  solid-js:
+    skills: [reactivity-diagnostics, solid-2.0, solid-2.0-cheatsheet]
+skills:
+  dirs:
+    - .agents/skills
+strictPeerDependencies: true

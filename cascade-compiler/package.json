@@ -1,0 +1,65 @@
+{
+  "name": "cascade",
+  "version": "0.0.1",
+  "type": "module",
+  "bin": {
+    "cascade": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/public/index.d.ts",
+      "import": "./dist/public/index.js",
+      "default": "./dist/public/index.js"
+    },
+    "./generated": {
+      "types": "./generated/index.d.ts",
+      "import": "./generated/index.js",
+      "default": "./generated/index.js"
+    },
+    "./vite": {
+      "types": "./dist/public/vite.d.ts",
+      "import": "./dist/public/vite.js",
+      "default": "./dist/public/vite.js"
+    },
+    "./cli": {
+      "types": "./dist/cli.d.ts",
+      "import": "./dist/cli.js"
+    }
+  },
+  "scripts": {
+    "coverage": "vitest run --coverage",
+    "test": "vitest",
+    "type": "tsc --noEmit",
+    "build": "tsc -p tsconfig.build.json",
+    "cli": "pnpm run build && node dist/cli.js",
+    "generate": "pnpm run build && node dist/cli.js build ../.."
+  },
+  "peerDependencies": {
+    "vite": "^8.2.2"
+  },
+  "peerDependenciesMeta": {
+    "vite": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "chokidar": "^6.0.0",
+    "colorjs.io": "^0.7.1",
+    "jsonc-parser": "^3.3.1",
+    "postcss": "^8.5.33",
+    "postcss-selector-parser": "^7.2.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.11",
+    "@vitest/coverage-v8": "^5.1.2",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2",
+    "vite": "^8.4.0",
+    "vitest": "^5.1.2"
+  },
+  "allowScripts": {
+    "@vitest/coverage-v8@5.0.0": true,
+    "vitest@5.0.0": true
+  }
+}

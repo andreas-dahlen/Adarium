@@ -1,0 +1,70 @@
+{
+  "publisher": "ad-web-launcher",
+  "name": "css-variable-completion",
+  "type": "module",
+  "displayName": "CSS Variable Completion",
+  "description": "Provides completion for CSS custom-property declarations.",
+  "version": "0.0.1",
+  "private": true,
+  "engines": {
+    "vscode": "^1.134.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onLanguage:css",
+    "onLanguage:scss",
+    "onLanguage:less"
+  ],
+  "scripts": {
+    "coverage": "vitest run --coverage",
+    "test": "vitest",
+    "type": "tsc --noEmit",
+    "build": "tsc --noEmit -p tsconfig.src.json && esbuild src/extension.ts --bundle --platform=node --format=esm --external:vscode --main-fields=module,main --outfile=dist/extension.js",
+    "package": "pnpm run build && vsce package --allow-missing-repository"
+  },
+  "dependencies": {
+    "jsonc-parser": "^3.3.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.11",
+    "@types/vscode": "^1.146.0",
+    "@vitest/coverage-v8": "^5.1.2",
+    "@vscode/vsce": "^4.1.1",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.2"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "keytar@7.9.0": true,
+    "@types/vscode@1.125.0": true,
+    "@vscode/vsce-sign@2.1.0": true,
+    "@vitest/coverage-v8@5.0.0": true,
+    "vitest@5.0.0": true
+  },
+  "contributes": {
+    "configuration": {
+      "properties": {
+        "cssVariableCompletion.variablesFile": {
+          "type": "string",
+          "default": "node_modules/cascade/src/generated/metadata/extension.jsonc",
+          "description": "Path to the CSS variable metadata file, relative to the workspace."
+        },
+        "cssVariableCompletion.lspFile": {
+          "type": "string",
+          "default": "node_modules/cascade/src/generated/metadata/lsp.ts",
+          "description": "Path to the LSP variable metadata file, relative to the workspace."
+        },
+        "cssVariableCompletion.nodeModulesRoot": {
+          "type": "string",
+          "default": ".",
+          "description": "Directory from which to resolve the Cascade package."
+        }
+      }
+    }
+  }
+}

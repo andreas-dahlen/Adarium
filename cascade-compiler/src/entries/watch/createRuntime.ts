@@ -1,0 +1,30 @@
+import { initializeCompiler } from '../../compiler/compilerService.ts'
+import type { CompilerRuntime } from '../../types/run.types.ts'
+import { resolveConfig } from '../config/resolveConfig.ts'
+import { watchConfig } from './watchers/watchConfig.ts'
+import { watchContent } from './watchers/watchContent.ts'
+
+export function createRuntime(
+  projectRoot: string,
+  onConfigChange: () => Promise<void>,
+): CompilerRuntime {
+  const configData = resolveConfig(projectRoot, { willEmitCss: false })
+
+  const compiler = initializeCompiler(configData)
+
+  const contentWatcher = watchContent(configData.config, compiler)
+
+  const configWatcher = watchConfig(configData.config.projectRoot, onConfigChange)
+
+  async function dispose() {
+    await contentWatcher.close()
+    await configWatcher.close()
+  }
+
+  return {
+    compiler,
+    contentWatcher,
+    configWatcher,
+    dispose
+  }
+}

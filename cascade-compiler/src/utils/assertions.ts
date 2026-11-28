@@ -1,0 +1,60 @@
+import type { CssDataTokenGroup, CssTokenGroup, TokenGroup } from "../types/compiler.types.ts";
+import type { CssVarString } from '../types/cascade.types.ts';
+
+
+type Assertions = {
+  cssVariable(value: string): asserts value is CssVarString;
+  hasCssPath(group: TokenGroup | undefined): asserts group is CssTokenGroup
+  groupsHaveCssPath(groups: TokenGroup[]): asserts groups is CssTokenGroup[]
+  groupsHaveCssData(groups: TokenGroup[]): asserts groups is CssDataTokenGroup[]
+};
+
+const CSS_VARIABLE = /^--[A-Za-z_][A-Za-z0-9_-]*$/
+
+export const assert: Assertions = {
+
+
+  cssVariable(value): asserts value is CssVarString {
+    if (!CSS_VARIABLE.test(value)) {
+      throw new Error(
+        `Invariant violated: "${value}" is not a CSS custom property.`,
+      )
+    }
+  },
+
+  hasCssPath(group) {
+    if (!group?.cssPath) {
+      throw new Error(
+        `Invariant violated: Token group "${group?.groupPath}" has no cssPath.`,
+      )
+    }
+  },
+
+  // hasGeneratedPath(
+  //   config: CompilerConfig,
+  // ): asserts config is EmitConfig & { generatedPath: string } {
+  //   if (!config.generatedPath) {
+  //     throw new Error('Expected compiler config to have a generatedPath')
+  //   }
+  // },
+
+  groupsHaveCssPath(groups) {
+    for (const group of groups) {
+      if (!group.cssPath) {
+        throw new Error(
+          `Invariant violated: Token group "${group.groupPath}" has no cssPath.`,
+        )
+      }
+    }
+  },
+
+  groupsHaveCssData(groups) {
+    for (const group of groups) {
+      if (!group.cssData) {
+        throw new Error(
+          `Invariant violated: A token in tokenGroups "${group.groupPath}" has no cssData.`,
+        )
+      }
+    }
+  },
+}

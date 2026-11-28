@@ -1,0 +1,22 @@
+{
+  "name": "rust-wasm-js-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@solidjs/web": "^2.0.4",
+    "rust-wasm": "file:../rust/pkg",
+    "solid-js": "^2.0.4"
+  },
+  "devDependencies": {
+    "@solidjs/vite-plugin": "^3.0.1",
+    "@types/node": "^26.6.11",
+    "typescript": "~7.0.2",
+    "vite": "^8.4.0"
+  }
+}

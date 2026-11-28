@@ -1,0 +1,182 @@
+import { describe, expect, it, vi } from 'vitest'
+
+import { variableEntry } from '../../variables/variableEntry.ts'
+import { resolveVariablesUri } from '../../config/paths.ts'
+import { loadExtensionData } from '../../variables/loadExtensionData.ts'
+import { watchVariables } from '../../variables/watchVariables.ts'
+import { cssLanguages } from '../../config/languages.ts'
+import type { Uri } from 'vscode'
+import type { ExtensionData } from '../../variables/variableSchema.ts'
+
+const registerCompletionItemProviderMock = vi.hoisted(() =>
+  vi.fn(),
+)
+
+const disposableFromMock = vi.hoisted(() =>
+  vi.fn((...disposables) => ({
+    dispose: vi.fn(() => {
+      for (const disposable of disposables) {
+        disposable.dispose()
+      }
+    }),
+  })),
+)
+
+const createProviderMock = vi.hoisted(() =>
+  vi.fn(),
+)
+
+vi.mock('vscode', () => ({
+  languages: {
+    registerCompletionItemProvider:
+      registerCompletionItemProviderMock,
+  },
+  Disposable: {
+    from: disposableFromMock,
+  },
+}))
+
+vi.mock('../../config/paths.ts', () => ({
+  resolveVariablesUri: vi.fn(),
+}))
+
+vi.mock('../../variables/loadExtensionData.ts', () => ({
+  loadExtensionData: vi.fn(),
+}))
+
+vi.mock('../../variables/watchVariables.ts', () => ({
+  watchVariables: vi.fn(),
+}))
+
+vi.mock(
+  '../../completion/cssVarCompletionProvider.ts',
+  () => ({
+    createCssVariableCompletionProvider:
+      createProviderMock,
+  }),
+)
+
+vi.mock('../../config/languages.ts', () => ({
+  cssLanguages: ['css', 'scss'],
+}))
+
+describe('[EXTENSION] variableEntry', () => {
+  const cascadeRoot = '/project'
+
+  const variablesUri = {
+    fsPath: '/project/extension.generated.jsonc',
+  }
+
+  const output = {
+    appendLine: vi.fn(),
+  }
+
+  it('returns null when no variables file is configured', () => {
+    vi.mocked(resolveVariablesUri).mockReturnValue(
+      undefined as unknown as Uri,
+    )
+
+    const result = variableEntry(
+      cascadeRoot,
+      output as never,
+    )
+
+    expect(result).toBeNull()
+
+    expect(loadExtensionData).not.toHaveBeenCalled()
+    expect(createProviderMock).not.toHaveBeenCalled()
+    expect(watchVariables).not.toHaveBeenCalled()
+    expect(
+      registerCompletionItemProviderMock,
+    ).not.toHaveBeenCalled()
+  })
+
+  it('sets up variable completion when a variables file exists', () => {
+    const extensionData: ExtensionData = [
+      {
+        cssPath: '/project/src/button.css',
+        variables: [
+          '--color-primary',
+          '--color-secondary',
+        ],
+      },
+      {
+        cssPath: '/project/src/carousel.css',
+        variables: [
+          '--carousel-height',
+        ],
+      },
+    ]
+
+    const watcher = {
+      dispose: vi.fn(),
+    }
+
+    const registration = {
+      dispose: vi.fn(),
+    }
+
+    const completion = {
+      provider: {},
+      updateExtensionData: vi.fn(),
+    }
+
+    vi.mocked(resolveVariablesUri).mockReturnValue(
+      variablesUri as never,
+    )
+
+    vi.mocked(loadExtensionData).mockReturnValue(
+      extensionData,
+    )
+
+    createProviderMock.mockReturnValue(completion)
+
+    vi.mocked(watchVariables).mockReturnValue(
+      watcher as never,
+    )
+
+    registerCompletionItemProviderMock.mockReturnValue(
+      registration,
+    )
+
+    const result = variableEntry(
+      cascadeRoot,
+      output as never,
+    )
+
+    expect(resolveVariablesUri).toHaveBeenCalledWith(
+      cascadeRoot,
+    )
+
+    expect(loadExtensionData).toHaveBeenCalledWith(
+      variablesUri,
+    )
+
+    expect(createProviderMock).toHaveBeenCalledWith(
+      extensionData,
+    )
+
+    expect(watchVariables).toHaveBeenCalledWith(
+      variablesUri,
+      completion.updateExtensionData,
+      output,
+    )
+
+    expect(
+      registerCompletionItemProviderMock,
+    ).toHaveBeenCalledWith(
+      cssLanguages,
+      completion.provider,
+      '-',
+    )
+
+    expect(disposableFromMock).toHaveBeenCalledWith(
+      watcher,
+      registration,
+    )
+
+    expect(result).toBe(
+      disposableFromMock.mock.results[0].value,
+    )
+  })
+})
